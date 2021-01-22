@@ -1,0 +1,236 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Marvin255\ConfigBag\Tests;
+
+use Marvin255\ConfigBag\ConfigBagArray;
+use RuntimeException;
+
+class ConfigBagArrayTest extends BaseCase
+{
+    /**
+     * @test
+     */
+    public function testHas(): void
+    {
+        $options = ['test_name' => 'test_value'];
+
+        $bag = new ConfigBagArray($options);
+        $has = $bag->has('test_name');
+
+        $this->assertTrue($has);
+    }
+
+    /**
+     * @test
+     */
+    public function testHasNot(): void
+    {
+        $options = ['test_name' => 'test_value'];
+
+        $bag = new ConfigBagArray($options);
+        $has = $bag->has('test_name_1');
+
+        $this->assertFalse($has);
+    }
+
+    /**
+     * @test
+     */
+    public function testString(): void
+    {
+        $options = ['test_name' => 'test_value'];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->string('test_name');
+
+        $this->assertSame('test_value', $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testStringDefault(): void
+    {
+        $options = ['test_name' => 'test_value'];
+        $default = 'default_value';
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->string('test_name_1', $default);
+
+        $this->assertSame($default, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testStringCast(): void
+    {
+        $options = ['test_name' => 0];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->string('test_name');
+
+        $this->assertSame('0', $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testStringConvertException(): void
+    {
+        $options = ['test_name' => []];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->string('test_name');
+    }
+
+    /**
+     * @test
+     */
+    public function testInt(): void
+    {
+        $options = ['test_name' => 123];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->int('test_name');
+
+        $this->assertSame(123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testIntDefault(): void
+    {
+        $options = ['test_name' => 'test_value'];
+        $default = 456;
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->int('test_name_1', $default);
+
+        $this->assertSame($default, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testIntCast(): void
+    {
+        $options = ['test_name' => '123'];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->int('test_name');
+
+        $this->assertSame(123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testIntConvertException(): void
+    {
+        $options = ['test_name' => []];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->int('test_name');
+    }
+
+    /**
+     * @test
+     */
+    public function testBool(): void
+    {
+        $options = ['test_name' => true];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->bool('test_name');
+
+        $this->assertSame(true, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testBoolDefault(): void
+    {
+        $options = ['test_name' => 'test_value'];
+        $default = true;
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->bool('test_name_1', $default);
+
+        $this->assertSame($default, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testBoolCast(): void
+    {
+        $options = ['test_name' => 1];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->bool('test_name');
+
+        $this->assertSame(true, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testBoolConvertException(): void
+    {
+        $options = ['test_name' => []];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->bool('test_name');
+    }
+
+    /**
+     * @test
+     */
+    public function testArray(): void
+    {
+        $options = ['test_name' => [123]];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->array('test_name');
+
+        $this->assertSame([123], $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testArrayDefault(): void
+    {
+        $options = ['test_name' => 'test_value'];
+        $default = [123];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->array('test_name_1', $default);
+
+        $this->assertSame([123], $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testArrayConvertException(): void
+    {
+        $options = ['test_name' => 123];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->array('test_name');
+    }
+}
