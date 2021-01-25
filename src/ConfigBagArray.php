@@ -20,7 +20,7 @@ class ConfigBagArray implements ConfigBag
     {
         $this->options = [];
         foreach ($options as $name => $value) {
-            $this->options[(string) $name] = $value;
+            $this->options[$name] = $value;
         }
     }
 
