@@ -12,16 +12,16 @@ use RuntimeException;
 class ConfigBagArray implements ConfigBag
 {
     /**
-     * @var array<string, mixed>
+     * @var mixed
      */
-    private array $options;
+    private $options;
 
-    public function __construct(iterable $options)
+    /**
+     * @param mixed $options
+     */
+    public function __construct($options)
     {
-        $this->options = [];
-        foreach ($options as $name => $value) {
-            $this->options[$name] = $value;
-        }
+        $this->options = $options;
     }
 
     /**
