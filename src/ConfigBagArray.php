@@ -20,8 +20,7 @@ class ConfigBagArray implements ConfigBag
     {
         $this->options = [];
         foreach ($options as $name => $value) {
-            $unifiedName = $this->unifyOptionName((string) $name);
-            $this->options[$unifiedName] = $value;
+            $this->options[(string) $name] = $value;
         }
     }
 
@@ -30,9 +29,7 @@ class ConfigBagArray implements ConfigBag
      */
     public function has(string $name): bool
     {
-        $unifiedName = $this->unifyOptionName($name);
-
-        return array_key_exists($unifiedName, $this->options);
+        return DataAccessHelper::get($name, $this->options) !== null;
     }
 
     /**
@@ -104,20 +101,6 @@ class ConfigBagArray implements ConfigBag
      */
     private function getOption(string $name)
     {
-        $unifiedName = $this->unifyOptionName($name);
-
-        return $this->options[$unifiedName] ?? null;
-    }
-
-    /**
-     * Converts option name to internal option name format.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    private function unifyOptionName(string $name): string
-    {
-        return strtolower(trim($name));
+        return DataAccessHelper::get($name, $this->options);
     }
 }

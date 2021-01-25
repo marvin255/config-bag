@@ -38,12 +38,51 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testHasMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => 'test_value']];
+
+        $bag = new ConfigBagArray($options);
+        $has = $bag->has('test_name.test_name_1');
+
+        $this->assertTrue($has);
+    }
+
+    /**
+     * @test
+     */
+    public function testHasNotMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => 'test_value']];
+
+        $bag = new ConfigBagArray($options);
+        $has = $bag->has('test_name.test_name_2');
+
+        $this->assertFalse($has);
+    }
+
+    /**
+     * @test
+     */
     public function testString(): void
     {
         $options = ['test_name' => 'test_value'];
 
         $bag = new ConfigBagArray($options);
         $option = $bag->string('test_name');
+
+        $this->assertSame('test_value', $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testStringMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => 'test_value']];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->string('test_name.test_name_1');
 
         $this->assertSame('test_value', $option);
     }
@@ -104,6 +143,19 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testIntMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => 123]];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->int('test_name.test_name_1');
+
+        $this->assertSame(123, $option);
+    }
+
+    /**
+     * @test
+     */
     public function testIntDefault(): void
     {
         $options = ['test_name' => 'test_value'];
@@ -157,6 +209,19 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testBoolMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => true]];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->bool('test_name.test_name_1');
+
+        $this->assertSame(true, $option);
+    }
+
+    /**
+     * @test
+     */
     public function testBoolDefault(): void
     {
         $options = ['test_name' => 'test_value'];
@@ -203,6 +268,19 @@ class ConfigBagArrayTest extends BaseCase
 
         $bag = new ConfigBagArray($options);
         $option = $bag->array('test_name');
+
+        $this->assertSame([123], $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testArrayMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => [123]]];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->array('test_name.test_name_1');
 
         $this->assertSame([123], $option);
     }
