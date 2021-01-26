@@ -65,6 +65,21 @@ class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
+    public function float(string $name, float $default = .0): float
+    {
+        $option = $this->getOption($name);
+
+        if ($option !== null && !is_scalar($option)) {
+            $message = sprintf("Can't return non scalar option '%s' as float.", $name);
+            throw new RuntimeException($message);
+        }
+
+        return $option === null ? $default : (float) $option;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function bool(string $name, bool $default = false): bool
     {
         $option = $this->getOption($name);

@@ -45,6 +45,18 @@ interface ConfigBag
     public function int(string $name, int $default = 0): int;
 
     /**
+     * Returns option value associated with set name as float.
+     *
+     * @param string $name
+     * @param float  $default
+     *
+     * @return float
+     *
+     * @throws RuntimeException
+     */
+    public function float(string $name, float $default = .0): float;
+
+    /**
      * Returns option value associated with set name as bool.
      *
      * @param string $name

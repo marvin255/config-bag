@@ -196,6 +196,72 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testFloat(): void
+    {
+        $options = ['test_name' => 123.123];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->float('test_name');
+
+        $this->assertSame(123.123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testFloatMultilevel(): void
+    {
+        $options = ['test_name' => ['test_name_1' => 123.123]];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->float('test_name.test_name_1');
+
+        $this->assertSame(123.123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testFloatDefault(): void
+    {
+        $options = ['test_name' => 'test_value'];
+        $default = 456.456;
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->float('test_name_1', $default);
+
+        $this->assertSame($default, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testFloatCast(): void
+    {
+        $options = ['test_name' => '123.123'];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->float('test_name');
+
+        $this->assertSame(123.123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testFloatConvertException(): void
+    {
+        $options = ['test_name' => []];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->float('test_name');
+    }
+
+    /**
+     * @test
+     */
     public function testBool(): void
     {
         $options = ['test_name' => true];
