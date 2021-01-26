@@ -23,13 +23,10 @@ class DataAccessHelper
 
         $item = $data;
         foreach ($arPath as $chainItem) {
-            $getter = 'get' . ucfirst($chainItem);
             if (is_array($item) && array_key_exists($chainItem, $item)) {
                 $item = $item[$chainItem];
             } elseif (is_object($item) && property_exists($item, $chainItem)) {
                 $item = $item->$chainItem;
-            } elseif (is_object($item) && method_exists($item, $getter)) {
-                $item = $item->$getter();
             } else {
                 $item = null;
                 break;

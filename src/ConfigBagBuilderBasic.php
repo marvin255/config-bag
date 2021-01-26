@@ -18,15 +18,23 @@ class ConfigBagBuilderBasic implements ConfigBagBuilder
 
     private array $options = [];
 
-    public function __construct(iterable $readers)
+    public function __construct(?iterable $readers = null)
     {
-        $this->readers = [];
-        foreach ($readers as $reader) {
-            if (!($reader instanceof SourceReader)) {
-                $message = sprintf("Source reader must be unstance of '%s'.", SourceReader::class);
-                throw new InvalidArgumentException($message);
+        if ($readers === null) {
+            $this->readers = [
+                new SourceReaderArray(),
+                new SourceReaderPhpFile(),
+                new SourceReaderJsonFile(),
+            ];
+        } else {
+            $this->readers = [];
+            foreach ($readers as $reader) {
+                if (!($reader instanceof SourceReader)) {
+                    $message = sprintf("Source reader must be unstance of '%s'.", SourceReader::class);
+                    throw new InvalidArgumentException($message);
+                }
+                $this->readers[] = $reader;
             }
-            $this->readers[] = $reader;
         }
     }
 

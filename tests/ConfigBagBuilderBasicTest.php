@@ -7,6 +7,7 @@ namespace Marvin255\ConfigBag\Tests;
 use InvalidArgumentException;
 use Marvin255\ConfigBag\ConfigBagBuilderBasic;
 use Marvin255\ConfigBag\SourceReader;
+use Marvin255\ConfigBag\SourceReaderArray;
 
 class ConfigBagBuilderBasicTest extends BaseCase
 {
@@ -58,5 +59,19 @@ class ConfigBagBuilderBasicTest extends BaseCase
 
         $this->expectException(InvalidArgumentException::class);
         $builder->loadSource('array', []);
+    }
+
+    /**
+     * @test
+     */
+    public function testBuildWithDefaultReaders(): void
+    {
+        $options = ['test' => ['test_1' => 'test value 1']];
+
+        $builder = new ConfigBagBuilderBasic();
+        $builder->loadSource(SourceReaderArray::SOURCE_TYPE_ARRAY, $options);
+        $bag = $builder->build();
+
+        $this->assertSame('test value 1', $bag->string('test.test_1'));
     }
 }
