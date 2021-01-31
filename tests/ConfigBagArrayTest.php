@@ -130,6 +130,32 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testStringRequired(): void
+    {
+        $options = ['test_name' => 'test_value'];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->stringRequired('test_name');
+
+        $this->assertSame('test_value', $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testStringRequiredException(): void
+    {
+        $options = [];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->stringRequired('test_name');
+    }
+
+    /**
+     * @test
+     */
     public function testInt(): void
     {
         $options = ['test_name' => 123];
@@ -191,6 +217,32 @@ class ConfigBagArrayTest extends BaseCase
 
         $this->expectException(RuntimeException::class);
         $bag->int('test_name');
+    }
+
+    /**
+     * @test
+     */
+    public function testIntRequired(): void
+    {
+        $options = ['test_name' => 123];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->intRequired('test_name');
+
+        $this->assertSame(123, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testIntRequiredException(): void
+    {
+        $options = [];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->intRequired('test_name');
     }
 
     /**
@@ -262,6 +314,32 @@ class ConfigBagArrayTest extends BaseCase
     /**
      * @test
      */
+    public function testFloatRequired(): void
+    {
+        $options = ['test_name' => 123.456];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->floatRequired('test_name');
+
+        $this->assertSame(123.456, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testFloatRequiredException(): void
+    {
+        $options = [];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->floatRequired('test_name');
+    }
+
+    /**
+     * @test
+     */
     public function testBool(): void
     {
         $options = ['test_name' => true];
@@ -323,6 +401,32 @@ class ConfigBagArrayTest extends BaseCase
 
         $this->expectException(RuntimeException::class);
         $bag->bool('test_name');
+    }
+
+    /**
+     * @test
+     */
+    public function testBoolRequired(): void
+    {
+        $options = ['test_name' => true];
+
+        $bag = new ConfigBagArray($options);
+        $option = $bag->boolRequired('test_name');
+
+        $this->assertSame(true, $option);
+    }
+
+    /**
+     * @test
+     */
+    public function testBoolRequiredException(): void
+    {
+        $options = [];
+
+        $bag = new ConfigBagArray($options);
+
+        $this->expectException(RuntimeException::class);
+        $bag->boolRequired('test_name');
     }
 
     /**

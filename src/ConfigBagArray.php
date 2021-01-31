@@ -37,12 +37,7 @@ class ConfigBagArray implements ConfigBag
      */
     public function string(string $name, string $default = ''): string
     {
-        $option = $this->getOption($name);
-
-        if ($option !== null && !is_scalar($option)) {
-            $message = sprintf("Can't return non scalar option '%s' as string.", $name);
-            throw new RuntimeException($message);
-        }
+        $option = $this->getScalarOption($name);
 
         return $option === null ? $default : (string) $option;
     }
@@ -50,14 +45,17 @@ class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
+    public function stringRequired(string $name): string
+    {
+        return (string) $this->getRequiredScalarOption($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function int(string $name, int $default = 0): int
     {
-        $option = $this->getOption($name);
-
-        if ($option !== null && !is_scalar($option)) {
-            $message = sprintf("Can't return non scalar option '%s' as int.", $name);
-            throw new RuntimeException($message);
-        }
+        $option = $this->getScalarOption($name);
 
         return $option === null ? $default : (int) $option;
     }
@@ -65,14 +63,17 @@ class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
+    public function intRequired(string $name): int
+    {
+        return (int) $this->getRequiredScalarOption($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function float(string $name, float $default = .0): float
     {
-        $option = $this->getOption($name);
-
-        if ($option !== null && !is_scalar($option)) {
-            $message = sprintf("Can't return non scalar option '%s' as float.", $name);
-            throw new RuntimeException($message);
-        }
+        $option = $this->getScalarOption($name);
 
         return $option === null ? $default : (float) $option;
     }
@@ -80,16 +81,27 @@ class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
+    public function floatRequired(string $name): float
+    {
+        return (float) $this->getRequiredScalarOption($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function bool(string $name, bool $default = false): bool
     {
-        $option = $this->getOption($name);
-
-        if ($option !== null && !is_scalar($option)) {
-            $message = sprintf("Can't return non scalar option '%s' as bool.", $name);
-            throw new RuntimeException($message);
-        }
+        $option = $this->getScalarOption($name);
 
         return $option === null ? $default : (bool) $option;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boolRequired(string $name): bool
+    {
+        return (bool) $this->getRequiredScalarOption($name);
     }
 
     /**
@@ -105,6 +117,44 @@ class ConfigBagArray implements ConfigBag
         }
 
         return $option === null ? $default : $option;
+    }
+
+    /**
+     * Returns scalar option value by set name.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    private function getScalarOption(string $name)
+    {
+        $option = $this->getOption($name);
+
+        if ($option !== null && !is_scalar($option)) {
+            $message = sprintf("Value for option '%s' must be scalar.", $name);
+            throw new RuntimeException($message);
+        }
+
+        return $option;
+    }
+
+    /**
+     * Returns option value by set name or throw an exception.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    private function getRequiredScalarOption(string $name)
+    {
+        $option = $this->getOption($name);
+
+        if ($option === null || !is_scalar($option)) {
+            $message = sprintf("Required option '%s' not found.", $name);
+            throw new RuntimeException($message);
+        }
+
+        return $option;
     }
 
     /**
