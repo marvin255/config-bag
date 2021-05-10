@@ -27,7 +27,7 @@ class SourceReaderJsonFile implements SourceReader
      */
     public function read(string $type, $source): array
     {
-        if (is_string($source)) {
+        if (\is_string($source)) {
             $source = new SplFileInfo($source);
         }
 
@@ -42,8 +42,8 @@ class SourceReaderJsonFile implements SourceReader
         }
 
         $content = file_get_contents($source->getRealPath());
-        $config = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $config = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
 
-        return is_array($config) ? $config : [];
+        return \is_array($config) ? $config : [];
     }
 }
