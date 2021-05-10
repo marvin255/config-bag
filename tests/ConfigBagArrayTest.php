@@ -7,6 +7,9 @@ namespace Marvin255\ConfigBag\Tests;
 use Marvin255\ConfigBag\ConfigBagArray;
 use RuntimeException;
 
+/**
+ * @internal
+ */
 class ConfigBagArrayTest extends BaseCase
 {
     /**
@@ -347,7 +350,7 @@ class ConfigBagArrayTest extends BaseCase
         $bag = new ConfigBagArray($options);
         $option = $bag->bool('test_name');
 
-        $this->assertSame(true, $option);
+        $this->assertTrue($option);
     }
 
     /**
@@ -360,7 +363,7 @@ class ConfigBagArrayTest extends BaseCase
         $bag = new ConfigBagArray($options);
         $option = $bag->bool('test_name.test_name_1');
 
-        $this->assertSame(true, $option);
+        $this->assertTrue($option);
     }
 
     /**
@@ -387,7 +390,7 @@ class ConfigBagArrayTest extends BaseCase
         $bag = new ConfigBagArray($options);
         $option = $bag->bool('test_name');
 
-        $this->assertSame(true, $option);
+        $this->assertTrue($option);
     }
 
     /**
@@ -413,7 +416,7 @@ class ConfigBagArrayTest extends BaseCase
         $bag = new ConfigBagArray($options);
         $option = $bag->boolRequired('test_name');
 
-        $this->assertSame(true, $option);
+        $this->assertTrue($option);
     }
 
     /**

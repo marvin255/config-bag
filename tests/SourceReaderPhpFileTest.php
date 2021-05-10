@@ -7,6 +7,9 @@ namespace Marvin255\ConfigBag\Tests;
 use InvalidArgumentException;
 use Marvin255\ConfigBag\SourceReaderPhpFile;
 
+/**
+ * @internal
+ */
 class SourceReaderPhpFileTest extends BaseCase
 {
     /**

@@ -7,12 +7,19 @@ namespace Marvin255\ConfigBag\Tests;
 use Marvin255\ConfigBag\DataAccessHelper;
 use stdClass;
 
+/**
+ * @internal
+ */
 class DataAccessHelperTest extends BaseCase
 {
     /**
+     * @param string $path
+     * @param mixed  $data
+     * @param mixed  $result
+     *
      * @dataProvider provideGetData
      */
-    public function testGet($path, $data, $result): void
+    public function testGet(string $path, $data, $result): void
     {
         $value = DataAccessHelper::get($path, $data);
 
@@ -28,7 +35,7 @@ class DataAccessHelperTest extends BaseCase
             [
                 'test',
                 [
-                   'test' => 'test value 0',
+                    'test' => 'test value 0',
                 ],
                 'test value 0',
             ],

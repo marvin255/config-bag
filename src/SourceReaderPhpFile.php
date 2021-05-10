@@ -29,7 +29,7 @@ class SourceReaderPhpFile implements SourceReader
      */
     public function read(string $type, $source): array
     {
-        if (is_string($source)) {
+        if (\is_string($source)) {
             $source = new SplFileInfo($source);
         }
 
@@ -45,6 +45,6 @@ class SourceReaderPhpFile implements SourceReader
 
         $config = include $source->getRealPath();
 
-        return is_array($config) ? $config : [];
+        return \is_array($config) ? $config : [];
     }
 }

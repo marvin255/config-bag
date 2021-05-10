@@ -9,6 +9,9 @@ use Marvin255\ConfigBag\ConfigBagBuilderBasic;
 use Marvin255\ConfigBag\SourceReader;
 use Marvin255\ConfigBag\SourceReaderArray;
 
+/**
+ * @internal
+ */
 class ConfigBagBuilderBasicTest extends BaseCase
 {
     /**

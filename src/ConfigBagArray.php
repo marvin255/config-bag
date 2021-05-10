@@ -111,7 +111,7 @@ class ConfigBagArray implements ConfigBag
     {
         $option = $this->getOption($name);
 
-        if ($option !== null && !is_array($option)) {
+        if ($option !== null && !\is_array($option)) {
             $message = sprintf("Can't return non array option '%s' as array.", $name);
             throw new RuntimeException($message);
         }
