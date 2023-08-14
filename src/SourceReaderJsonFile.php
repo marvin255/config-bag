@@ -12,6 +12,8 @@ namespace Marvin255\ConfigBag;
 final class SourceReaderJsonFile implements SourceReader
 {
     public const SOURCE_TYPE_JSON_FILE = 'json_file';
+    private const JSON_MAX_DEPTH = 512;
+    private const JSON_DECODE_OPTIONS = \JSON_THROW_ON_ERROR;
 
     /**
      * {@inheritDoc}
@@ -39,7 +41,12 @@ final class SourceReaderJsonFile implements SourceReader
         }
 
         $content = file_get_contents($source->getRealPath());
-        $config = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
+        $config = json_decode(
+            $content,
+            true,
+            self::JSON_MAX_DEPTH,
+            self::JSON_DECODE_OPTIONS
+        );
 
         return \is_array($config) ? $config : [];
     }

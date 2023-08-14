@@ -11,6 +11,11 @@ namespace Marvin255\ConfigBag;
  */
 final class ConfigBagArray implements ConfigBag
 {
+    private const DEFAULT_STRING = '';
+    private const DEFAULT_INT = 0;
+    private const DEFAULT_FLOAT = .0;
+    private const DEFAULT_BOOL = false;
+
     public function __construct(private readonly mixed $options)
     {
     }
@@ -26,7 +31,7 @@ final class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
-    public function string(string $name, string $default = ''): string
+    public function string(string $name, string $default = self::DEFAULT_STRING): string
     {
         $option = $this->getScalarOption($name);
 
@@ -44,7 +49,7 @@ final class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
-    public function int(string $name, int $default = 0): int
+    public function int(string $name, int $default = self::DEFAULT_INT): int
     {
         $option = $this->getScalarOption($name);
 
@@ -62,7 +67,7 @@ final class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
-    public function float(string $name, float $default = .0): float
+    public function float(string $name, float $default = self::DEFAULT_FLOAT): float
     {
         $option = $this->getScalarOption($name);
 
@@ -80,7 +85,7 @@ final class ConfigBagArray implements ConfigBag
     /**
      * {@inheritDoc}
      */
-    public function bool(string $name, bool $default = false): bool
+    public function bool(string $name, bool $default = self::DEFAULT_BOOL): bool
     {
         $option = $this->getScalarOption($name);
 

@@ -15,9 +15,11 @@ final class ConfigBagBuilderBasicTest extends BaseCase
 {
     public function testConstructException(): void
     {
+        $exceptionMessage = 'Source reader must be unstance of ' . SourceReader::class;
         $reader = $this->getMockBuilder(SourceReader::class)->getMock();
 
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($exceptionMessage);
         new ConfigBagBuilderBasic(
             [
                 $reader,
@@ -57,6 +59,9 @@ final class ConfigBagBuilderBasicTest extends BaseCase
 
     public function testLoadUnsupportedTypeException(): void
     {
+        $sourceType = 'array';
+        $exceptionMessage = "Config source type {$sourceType} is unsupported";
+
         $reader = $this->getMockBuilder(SourceReader::class)->getMock();
         $reader->method('supports')->willReturn(false);
 
@@ -71,7 +76,8 @@ final class ConfigBagBuilderBasicTest extends BaseCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $builder->loadSource('array', []);
+        $this->expectExceptionMessage($exceptionMessage);
+        $builder->loadSource($sourceType, []);
     }
 
     public function testBuildWithDefaultReaders(): void
