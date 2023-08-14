@@ -5,6 +5,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config file:///var/www/vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
 >
     <projectFiles>
         <directory name="./src" />
@@ -14,10 +16,11 @@
     </projectFiles>
 
     <issueHandlers>
-        <PropertyNotSetInConstructor errorLevel="suppress"/>
+        <MixedAssignment errorLevel="suppress"/>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="./tests"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
     </issueHandlers>
-
-    <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-    </plugins>
 </psalm>

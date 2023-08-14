@@ -43,6 +43,8 @@ final class DataAccessHelper
 
     /**
      * Explodes dotted path to array of items.
+     *
+     * @return string[]
      */
     private static function explodePath(string $path): array
     {

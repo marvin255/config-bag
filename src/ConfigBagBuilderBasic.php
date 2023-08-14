@@ -21,23 +21,23 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
     public function __construct(iterable $readers = null)
     {
         if ($readers === null) {
-            $readers = [
+            $selectedReaders = [
                 new SourceReaderArray(),
                 new SourceReaderPhpFile(),
                 new SourceReaderJsonFile(),
             ];
         } else {
-            $readers = [];
+            $selectedReaders = [];
             foreach ($readers as $reader) {
                 if (!($reader instanceof SourceReader)) {
                     throw new \InvalidArgumentException(
                         'Source reader must be unstance of ' . SourceReader::class
                     );
                 }
-                $readers[] = $reader;
+                $selectedReaders[] = $reader;
             }
         }
-        $this->readers = $readers;
+        $this->readers = $selectedReaders;
     }
 
     /**

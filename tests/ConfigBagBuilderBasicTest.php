@@ -42,11 +42,17 @@ final class ConfigBagBuilderBasicTest extends BaseCase
         $reader1->method('supports')->willReturn(true);
         $reader1->expects($this->once())->method('read')->willReturnArgument(1);
 
-        $builder = new ConfigBagBuilderBasic([$reader, $reader1]);
+        $builder = new ConfigBagBuilderBasic(
+            [
+                $reader,
+                $reader1,
+            ]
+        );
         $builder->loadSource('array', $options);
         $bag = $builder->build();
+        $res = $bag->string('test.test_1');
 
-        $this->assertSame('test value 1', $bag->string('test.test_1'));
+        $this->assertSame('test value 1', $res);
     }
 
     public function testLoadUnsupportedTypeException(): void
@@ -57,7 +63,12 @@ final class ConfigBagBuilderBasicTest extends BaseCase
         $reader1 = $this->getMockBuilder(SourceReader::class)->getMock();
         $reader1->method('supports')->willReturn(false);
 
-        $builder = new ConfigBagBuilderBasic([$reader, $reader1]);
+        $builder = new ConfigBagBuilderBasic(
+            [
+                $reader,
+                $reader1,
+            ]
+        );
 
         $this->expectException(\InvalidArgumentException::class);
         $builder->loadSource('array', []);
@@ -74,7 +85,8 @@ final class ConfigBagBuilderBasicTest extends BaseCase
         $builder = new ConfigBagBuilderBasic();
         $builder->loadSource(SourceReaderArray::SOURCE_TYPE_ARRAY, $options);
         $bag = $builder->build();
+        $res = $bag->string('test.test_1');
 
-        $this->assertSame('test value 1', $bag->string('test.test_1'));
+        $this->assertSame('test value 1', $res);
     }
 }
