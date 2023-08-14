@@ -4,44 +4,46 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
-use InvalidArgumentException;
-
 /**
  * Config builder that uses array of source readers to load data.
+ *
+ * @internal
  */
-class ConfigBagBuilderBasic implements ConfigBagBuilder
+final class ConfigBagBuilderBasic implements ConfigBagBuilder
 {
     /**
      * @var SourceReader[]
      */
-    private array $readers;
+    private readonly array $readers;
 
     private array $options = [];
 
-    public function __construct(?iterable $readers = null)
+    public function __construct(iterable $readers = null)
     {
         if ($readers === null) {
-            $this->readers = [
+            $readers = [
                 new SourceReaderArray(),
                 new SourceReaderPhpFile(),
                 new SourceReaderJsonFile(),
             ];
         } else {
-            $this->readers = [];
+            $readers = [];
             foreach ($readers as $reader) {
                 if (!($reader instanceof SourceReader)) {
-                    $message = sprintf("Source reader must be unstance of '%s'.", SourceReader::class);
-                    throw new InvalidArgumentException($message);
+                    throw new \InvalidArgumentException(
+                        'Source reader must be unstance of ' . SourceReader::class
+                    );
                 }
-                $this->readers[] = $reader;
+                $readers[] = $reader;
             }
         }
+        $this->readers = $readers;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function loadSource(string $sourceType, $source): ConfigBagBuilder
+    public function loadSource(string $sourceType, mixed $source): ConfigBagBuilder
     {
         $isSupported = false;
         foreach ($this->readers as $reader) {
@@ -54,8 +56,9 @@ class ConfigBagBuilderBasic implements ConfigBagBuilder
         }
 
         if (!$isSupported) {
-            $message = sprintf("Config source type '%s' is unsupported.", $sourceType);
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException(
+                "Config source type {$sourceType} is unsupported"
+            );
         }
 
         return $this;

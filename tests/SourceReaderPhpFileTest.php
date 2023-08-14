@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag\Tests;
 
-use InvalidArgumentException;
 use Marvin255\ConfigBag\SourceReaderPhpFile;
 
 /**
  * @internal
  */
-class SourceReaderPhpFileTest extends BaseCase
+final class SourceReaderPhpFileTest extends BaseCase
 {
-    /**
-     * @test
-     */
     public function testSupports(): void
     {
         $reader = new SourceReaderPhpFile();
@@ -23,10 +19,7 @@ class SourceReaderPhpFileTest extends BaseCase
         $this->assertTrue($isSupport);
     }
 
-    /**
-     * @test
-     */
-    public function testNotSupports(): void
+    public function testDoesNotSupports(): void
     {
         $reader = new SourceReaderPhpFile();
         $isSupport = $reader->supports('test', []);
@@ -34,13 +27,12 @@ class SourceReaderPhpFileTest extends BaseCase
         $this->assertFalse($isSupport);
     }
 
-    /**
-     * @test
-     */
     public function testRead(): void
     {
         $file = __DIR__ . '/_fixtures/SourceReaderPhpFileTest_testRead.php';
-        $options = ['test' => 'test'];
+        $options = [
+            'test' => 'test',
+        ];
 
         $reader = new SourceReaderPhpFile();
         $readedOptions = $reader->read(SourceReaderPhpFile::SOURCE_TYPE_PHP_FILE, $file);
@@ -48,25 +40,19 @@ class SourceReaderPhpFileTest extends BaseCase
         $this->assertSame($options, $readedOptions);
     }
 
-    /**
-     * @test
-     */
     public function testReadException(): void
     {
         $reader = new SourceReaderPhpFile();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $reader->read(SourceReaderPhpFile::SOURCE_TYPE_PHP_FILE, []);
     }
 
-    /**
-     * @test
-     */
     public function testReadUnexistedFileException(): void
     {
         $reader = new SourceReaderPhpFile();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $reader->read(SourceReaderPhpFile::SOURCE_TYPE_PHP_FILE, '/test.php');
     }
 }

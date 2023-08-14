@@ -4,24 +4,15 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
-use RuntimeException;
-
 /**
  * Object that stores configuration options in internal array.
+ *
+ * @internal
  */
-class ConfigBagArray implements ConfigBag
+final class ConfigBagArray implements ConfigBag
 {
-    /**
-     * @var mixed
-     */
-    private $options;
-
-    /**
-     * @param mixed $options
-     */
-    public function __construct($options)
+    public function __construct(private readonly mixed $options)
     {
-        $this->options = $options;
     }
 
     /**
@@ -112,8 +103,7 @@ class ConfigBagArray implements ConfigBag
         $option = $this->getOption($name);
 
         if ($option !== null && !\is_array($option)) {
-            $message = sprintf("Can't return non array option '%s' as array.", $name);
-            throw new RuntimeException($message);
+            throw new \RuntimeException("Can't return non array option {$name} as array");
         }
 
         return $option === null ? $default : $option;
@@ -122,17 +112,14 @@ class ConfigBagArray implements ConfigBag
     /**
      * Returns scalar option value by set name.
      *
-     * @param string $name
-     *
      * @return mixed
      */
     private function getScalarOption(string $name)
     {
         $option = $this->getOption($name);
 
-        if ($option !== null && !is_scalar($option)) {
-            $message = sprintf("Value for option '%s' must be scalar.", $name);
-            throw new RuntimeException($message);
+        if ($option !== null && !\is_scalar($option)) {
+            throw new \RuntimeException("Value for option {$name} must be scalar");
         }
 
         return $option;
@@ -141,17 +128,14 @@ class ConfigBagArray implements ConfigBag
     /**
      * Returns option value by set name or throw an exception.
      *
-     * @param string $name
-     *
      * @return mixed
      */
     private function getRequiredScalarOption(string $name)
     {
         $option = $this->getOption($name);
 
-        if ($option === null || !is_scalar($option)) {
-            $message = sprintf("Required option '%s' not found.", $name);
-            throw new RuntimeException($message);
+        if ($option === null || !\is_scalar($option)) {
+            throw new \RuntimeException("Required option {$name} not found");
         }
 
         return $option;
@@ -159,8 +143,6 @@ class ConfigBagArray implements ConfigBag
 
     /**
      * Returns option value by set name.
-     *
-     * @param string $name
      *
      * @return mixed
      */

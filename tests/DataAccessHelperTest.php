@@ -5,30 +5,25 @@ declare(strict_types=1);
 namespace Marvin255\ConfigBag\Tests;
 
 use Marvin255\ConfigBag\DataAccessHelper;
-use stdClass;
 
 /**
  * @internal
  */
-class DataAccessHelperTest extends BaseCase
+final class DataAccessHelperTest extends BaseCase
 {
     /**
-     * @param string $path
-     * @param mixed  $data
-     * @param mixed  $result
-     *
      * @dataProvider provideGetData
      */
-    public function testGet(string $path, $data, $result): void
+    public function testGet(string $path, mixed $data, mixed $result): void
     {
         $value = DataAccessHelper::get($path, $data);
 
         $this->assertSame($value, $result);
     }
 
-    public function provideGetData(): array
+    public static function provideGetData(): array
     {
-        $object = new stdClass();
+        $object = new \stdClass();
         $object->test = 'test value object';
 
         return [

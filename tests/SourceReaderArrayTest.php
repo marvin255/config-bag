@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag\Tests;
 
-use InvalidArgumentException;
 use Marvin255\ConfigBag\SourceReaderArray;
 
 /**
  * @internal
  */
-class SourceReaderArrayTest extends BaseCase
+final class SourceReaderArrayTest extends BaseCase
 {
-    /**
-     * @test
-     */
     public function testSupports(): void
     {
         $reader = new SourceReaderArray();
@@ -23,9 +19,6 @@ class SourceReaderArrayTest extends BaseCase
         $this->assertTrue($isSupport);
     }
 
-    /**
-     * @test
-     */
     public function testNotSupports(): void
     {
         $reader = new SourceReaderArray();
@@ -34,12 +27,11 @@ class SourceReaderArrayTest extends BaseCase
         $this->assertFalse($isSupport);
     }
 
-    /**
-     * @test
-     */
     public function testRead(): void
     {
-        $options = ['test' => 'test'];
+        $options = [
+            'test' => 'test',
+        ];
 
         $reader = new SourceReaderArray();
         $readedOptions = $reader->read(SourceReaderArray::SOURCE_TYPE_ARRAY, $options);
@@ -47,14 +39,11 @@ class SourceReaderArrayTest extends BaseCase
         $this->assertSame($options, $readedOptions);
     }
 
-    /**
-     * @test
-     */
     public function testReadException(): void
     {
         $reader = new SourceReaderArray();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $reader->read(SourceReaderArray::SOURCE_TYPE_ARRAY, 'test');
     }
 }

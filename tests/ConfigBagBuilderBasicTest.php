@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag\Tests;
 
-use InvalidArgumentException;
 use Marvin255\ConfigBag\ConfigBagBuilderBasic;
 use Marvin255\ConfigBag\SourceReader;
 use Marvin255\ConfigBag\SourceReaderArray;
@@ -12,25 +11,28 @@ use Marvin255\ConfigBag\SourceReaderArray;
 /**
  * @internal
  */
-class ConfigBagBuilderBasicTest extends BaseCase
+final class ConfigBagBuilderBasicTest extends BaseCase
 {
-    /**
-     * @test
-     */
     public function testConstructException(): void
     {
         $reader = $this->getMockBuilder(SourceReader::class)->getMock();
 
-        $this->expectException(InvalidArgumentException::class);
-        new ConfigBagBuilderBasic([$reader, 'test']);
+        $this->expectException(\InvalidArgumentException::class);
+        new ConfigBagBuilderBasic(
+            [
+                $reader,
+                'test',
+            ]
+        );
     }
 
-    /**
-     * @test
-     */
     public function testBuild(): void
     {
-        $options = ['test' => ['test_1' => 'test value 1']];
+        $options = [
+            'test' => [
+                'test_1' => 'test value 1',
+            ],
+        ];
 
         $reader = $this->getMockBuilder(SourceReader::class)->getMock();
         $reader->method('supports')->willReturn(false);
@@ -47,9 +49,6 @@ class ConfigBagBuilderBasicTest extends BaseCase
         $this->assertSame('test value 1', $bag->string('test.test_1'));
     }
 
-    /**
-     * @test
-     */
     public function testLoadUnsupportedTypeException(): void
     {
         $reader = $this->getMockBuilder(SourceReader::class)->getMock();
@@ -60,16 +59,17 @@ class ConfigBagBuilderBasicTest extends BaseCase
 
         $builder = new ConfigBagBuilderBasic([$reader, $reader1]);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $builder->loadSource('array', []);
     }
 
-    /**
-     * @test
-     */
     public function testBuildWithDefaultReaders(): void
     {
-        $options = ['test' => ['test_1' => 'test value 1']];
+        $options = [
+            'test' => [
+                'test_1' => 'test value 1',
+            ],
+        ];
 
         $builder = new ConfigBagBuilderBasic();
         $builder->loadSource(SourceReaderArray::SOURCE_TYPE_ARRAY, $options);

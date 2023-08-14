@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Basic class for all tests in suite.
+ *
+ * @internal
  */
 abstract class BaseCase extends TestCase
 {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
-use InvalidArgumentException;
-
 /**
  * Object that reades and checks configuration from array.
+ *
+ * @internal
  */
-class SourceReaderArray implements SourceReader
+final class SourceReaderArray implements SourceReader
 {
     public const SOURCE_TYPE_ARRAY = 'array';
 
     /**
      * {@inheritDoc}
      */
-    public function supports(string $type, $source): bool
+    public function supports(string $type, mixed $source): bool
     {
         return $type === self::SOURCE_TYPE_ARRAY;
     }
@@ -24,11 +24,10 @@ class SourceReaderArray implements SourceReader
     /**
      * {@inheritDoc}
      */
-    public function read(string $type, $source): array
+    public function read(string $type, mixed $source): array
     {
         if (!\is_array($source)) {
-            $message = 'Source item must be an instance of array.';
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException('Source item must be an instance of array');
         }
 
         return $source;

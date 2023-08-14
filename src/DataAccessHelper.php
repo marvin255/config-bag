@@ -6,14 +6,19 @@ namespace Marvin255\ConfigBag;
 
 /**
  * Helper that allows to access hierarchical data via dot syntax.
+ *
+ * @internal
  */
-class DataAccessHelper
+final class DataAccessHelper
 {
+    private function __construct()
+    {
+    }
+
     /**
      * Returns data by set path.
      *
-     * @param string $path
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return mixed
      */
@@ -38,10 +43,6 @@ class DataAccessHelper
 
     /**
      * Explodes dotted path to array of items.
-     *
-     * @param string $path
-     *
-     * @return array
      */
     private static function explodePath(string $path): array
     {
