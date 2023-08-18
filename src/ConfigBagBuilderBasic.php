@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
+use Marvin255\DataGetterHelper\DataGetterProxy;
+
 /**
  * Config builder that uses array of source readers to load data.
  *
@@ -67,9 +69,9 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
     /**
      * {@inheritDoc}
      */
-    public function build(): ConfigBag
+    public function build(): DataGetterProxy
     {
-        $bag = new ConfigBagArray($this->options);
+        $bag = DataGetterProxy::wrap($this->options);
         $this->options = [];
 
         return $bag;

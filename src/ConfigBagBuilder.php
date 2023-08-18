@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
+use Marvin255\DataGetterHelper\DataGetterProxy;
+
 /**
  * Object that can create config bag item.
  */
@@ -19,5 +21,5 @@ interface ConfigBagBuilder
     /**
      * Returns config bag builded with all data from resources.
      */
-    public function build(): ConfigBag;
+    public function build(): DataGetterProxy;
 }
