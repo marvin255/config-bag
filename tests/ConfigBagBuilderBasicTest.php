@@ -57,6 +57,39 @@ final class ConfigBagBuilderBasicTest extends BaseCase
         $this->assertSame('test value 1', $res);
     }
 
+    public function testBuildMultipleSources(): void
+    {
+        $options = ['test' => 'test'];
+        $options1 = ['test1' => 'test 1'];
+
+        $reader = $this->getMockBuilder(SourceReader::class)->getMock();
+        $reader->method('supports')->willReturnCallback(
+            fn (string $t, mixed $p): bool => $t === 'array' && $p === $options
+        );
+        $reader->expects($this->once())->method('read')->willReturnArgument(1);
+
+        $reader1 = $this->getMockBuilder(SourceReader::class)->getMock();
+        $reader1->method('supports')->willReturnCallback(
+            fn (string $t, mixed $p): bool => $t === 'array' && $p === $options1
+        );
+        $reader1->expects($this->once())->method('read')->willReturnArgument(1);
+
+        $builder = new ConfigBagBuilderBasic(
+            [
+                $reader,
+                $reader1,
+            ]
+        );
+        $builder->loadSource('array', $options);
+        $builder->loadSource('array', $options1);
+        $bag = $builder->build();
+        $res = $bag->string('test');
+        $res1 = $bag->string('test1');
+
+        $this->assertSame('test', $res);
+        $this->assertSame('test 1', $res1);
+    }
+
     public function testLoadUnsupportedTypeException(): void
     {
         $sourceType = 'array';

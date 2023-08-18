@@ -47,23 +47,18 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
      */
     public function loadSource(string $sourceType, mixed $source): ConfigBagBuilder
     {
-        $isSupported = false;
         foreach ($this->readers as $reader) {
             if ($reader->supports($sourceType, $source)) {
                 $readData = $reader->read($sourceType, $source);
                 $this->options = array_merge($this->options, $readData);
-                $isSupported = true;
-                break;
+
+                return $this;
             }
         }
 
-        if (!$isSupported) {
-            throw new \InvalidArgumentException(
-                "Config source type {$sourceType} is unsupported"
-            );
-        }
-
-        return $this;
+        throw new \InvalidArgumentException(
+            "Config source type {$sourceType} is unsupported"
+        );
     }
 
     /**
