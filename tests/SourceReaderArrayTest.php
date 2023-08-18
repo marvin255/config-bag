@@ -31,6 +31,7 @@ final class SourceReaderArrayTest extends BaseCase
     {
         $options = [
             'test' => 'test',
+            'test1' => 'test 1',
         ];
 
         $reader = new SourceReaderArray();
