@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
-use InvalidArgumentException;
-use SplFileInfo;
-
 /**
  * Object that reades and checks configuration from php file.
+ *
+ * @internal
  */
-class SourceReaderPhpFile implements SourceReader
+final class SourceReaderPhpFile implements SourceReader
 {
     public const SOURCE_TYPE_PHP_FILE = 'php_file';
 
     /**
      * {@inheritDoc}
      */
-    public function supports(string $type, $source): bool
+    public function supports(string $type, mixed $source): bool
     {
         return $type === self::SOURCE_TYPE_PHP_FILE;
     }
@@ -27,20 +26,18 @@ class SourceReaderPhpFile implements SourceReader
      *
      * @psalm-suppress UnresolvableInclude
      */
-    public function read(string $type, $source): array
+    public function read(string $type, mixed $source): array
     {
         if (\is_string($source)) {
-            $source = new SplFileInfo($source);
+            $source = new \SplFileInfo($source);
         }
 
-        if (!($source instanceof SplFileInfo)) {
-            $message = 'Source item must be an instance of string or SplFileInfo.';
-            throw new InvalidArgumentException($message);
+        if (!($source instanceof \SplFileInfo)) {
+            throw new \InvalidArgumentException('Source item must be an instance of string or SplFileInfo');
         }
 
         if (!$source->isFile() || !$source->isReadable()) {
-            $message = 'Source file must be existed and readable.';
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException('Source file must be existed and readable');
         }
 
         $config = include $source->getRealPath();

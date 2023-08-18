@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag\Tests;
 
-use InvalidArgumentException;
 use Marvin255\ConfigBag\SourceReaderJsonFile;
 
 /**
  * @internal
  */
-class SourceReaderJsonFileTest extends BaseCase
+final class SourceReaderJsonFileTest extends BaseCase
 {
-    /**
-     * @test
-     */
     public function testSupports(): void
     {
         $reader = new SourceReaderJsonFile();
@@ -23,9 +19,6 @@ class SourceReaderJsonFileTest extends BaseCase
         $this->assertTrue($isSupport);
     }
 
-    /**
-     * @test
-     */
     public function testNotSupports(): void
     {
         $reader = new SourceReaderJsonFile();
@@ -34,13 +27,12 @@ class SourceReaderJsonFileTest extends BaseCase
         $this->assertFalse($isSupport);
     }
 
-    /**
-     * @test
-     */
     public function testRead(): void
     {
         $file = __DIR__ . '/_fixtures/SourceReaderJsonFileTest_testRead.json';
-        $options = ['test' => 'test'];
+        $options = [
+            'test' => 'test',
+        ];
 
         $reader = new SourceReaderJsonFile();
         $readedOptions = $reader->read(SourceReaderJsonFile::SOURCE_TYPE_JSON_FILE, $file);
@@ -48,25 +40,19 @@ class SourceReaderJsonFileTest extends BaseCase
         $this->assertSame($options, $readedOptions);
     }
 
-    /**
-     * @test
-     */
     public function testReadException(): void
     {
         $reader = new SourceReaderJsonFile();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $reader->read(SourceReaderJsonFile::SOURCE_TYPE_JSON_FILE, []);
     }
 
-    /**
-     * @test
-     */
     public function testReadUnexistedFileException(): void
     {
         $reader = new SourceReaderJsonFile();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $reader->read(SourceReaderJsonFile::SOURCE_TYPE_JSON_FILE, '/test.json');
     }
 }

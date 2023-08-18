@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Marvin255\ConfigBag;
 
-use InvalidArgumentException;
-
 /**
  * Object that can read configuration data from set source.
  */
@@ -13,23 +11,13 @@ interface SourceReader
 {
     /**
      * Returns true if reader can read set source.
-     *
-     * @param string $type
-     * @param mixed  $source
-     *
-     * @return bool
      */
-    public function supports(string $type, $source): bool;
+    public function supports(string $type, mixed $source): bool;
 
     /**
      * Reads configuration from set source.
      *
-     * @param string $type
-     * @param mixed  $source
-     *
-     * @return array
-     *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function read(string $type, $source): array;
+    public function read(string $type, mixed $source): array;
 }
