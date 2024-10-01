@@ -20,7 +20,7 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
 
     private array $options = [];
 
-    public function __construct(iterable $readers = null)
+    public function __construct(?iterable $readers = null)
     {
         if ($readers === null) {
             $selectedReaders = [
