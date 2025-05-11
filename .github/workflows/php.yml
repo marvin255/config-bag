@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.3']
 
     steps:
     - uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -48,3 +48,6 @@ jobs:
 
     - name: Run linters
       run: composer run-script linter
+
+    - name: Run mutation testing
+      run: composer run-script infection
