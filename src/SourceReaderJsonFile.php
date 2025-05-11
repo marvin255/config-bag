@@ -18,6 +18,7 @@ final class SourceReaderJsonFile implements SourceReader
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function supports(string $type, mixed $source): bool
     {
         return $type === self::SOURCE_TYPE_JSON_FILE;
@@ -26,6 +27,7 @@ final class SourceReaderJsonFile implements SourceReader
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function read(string $type, mixed $source): array
     {
         if (\is_string($source)) {
