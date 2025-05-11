@@ -10,6 +10,11 @@
     },
     "mutators": {
         "@default": true,
-        "LogicalOr": false
+        "LogicalOr": false,
+        "CastString": {
+            "ignore": [
+                "Marvin255\\ConfigBag\\SourceReaderJsonFile::read"
+            ]
+        }
     }
 }
