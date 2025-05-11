@@ -42,7 +42,7 @@ final class SourceReaderJsonFile implements SourceReader
             throw new \InvalidArgumentException('Source file must be existed an readable');
         }
 
-        $content = file_get_contents($source->getRealPath());
+        $content = (string) file_get_contents($source->getRealPath());
         $config = json_decode(
             $content,
             true,
