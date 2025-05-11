@@ -45,6 +45,7 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function loadSource(string $sourceType, mixed $source): ConfigBagBuilder
     {
         foreach ($this->readers as $reader) {
@@ -64,6 +65,7 @@ final class ConfigBagBuilderBasic implements ConfigBagBuilder
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function build(): DataGetterProxy
     {
         $bag = DataGetterProxy::wrap($this->options);

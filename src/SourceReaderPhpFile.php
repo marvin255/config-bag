@@ -16,6 +16,7 @@ final class SourceReaderPhpFile implements SourceReader
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function supports(string $type, mixed $source): bool
     {
         return $type === self::SOURCE_TYPE_PHP_FILE;
@@ -26,6 +27,7 @@ final class SourceReaderPhpFile implements SourceReader
      *
      * @psalm-suppress UnresolvableInclude
      */
+    #[\Override]
     public function read(string $type, mixed $source): array
     {
         if (\is_string($source)) {

@@ -18,6 +18,7 @@ final class SourceReaderJsonFile implements SourceReader
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function supports(string $type, mixed $source): bool
     {
         return $type === self::SOURCE_TYPE_JSON_FILE;
@@ -26,6 +27,7 @@ final class SourceReaderJsonFile implements SourceReader
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function read(string $type, mixed $source): array
     {
         if (\is_string($source)) {
@@ -40,7 +42,7 @@ final class SourceReaderJsonFile implements SourceReader
             throw new \InvalidArgumentException('Source file must be existed an readable');
         }
 
-        $content = file_get_contents($source->getRealPath());
+        $content = (string) file_get_contents($source->getRealPath());
         $config = json_decode(
             $content,
             true,
